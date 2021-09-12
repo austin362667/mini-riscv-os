@@ -15,14 +15,16 @@ _start:
     csrr a0, mhartid                # read current hart id
     bnez a0, park                   # if we're not on the hart 0
 
-#   li t0, 1 << 7
-#	li      t0, 0xffffffff
-#	csrw    pmpaddr0, t0
-#	li      t0, 0xf
-#	csrw    pmpcfg0, t0
-#     csrr a1, mstatus
-#     or t0, t0, a1
-#     csrw mstatus, t0
+    li t0, 0xf
+    csrw pmpcfg0, t0
+    li t0, 0x0
+    csrw pmpaddr0, t0
+
+    li t0, 1 << 7
+
+    csrr a1, mstatus
+    or t0, t0, a1
+    csrw mstatus, t0
                                     # we park the hart    
     j    os_main                    # hart 0 jump to c
 
